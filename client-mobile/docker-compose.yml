@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  client-mobile:
+    image: cirrusci/flutter:stable
+    privileged: true
+    working_dir: /build
+    volumes:
+      - .:/build
+      - /dev/bus/usb:/dev/bus/usb
+      - android-sdk-linux:/opt/android-sdk-linux
+      - pub-cache:/root/.pub-cache
+
+# these are used to not lose your android-sdk
+# installations and flutter package cache
+# basically to start the application faster
+# without the need to reinstall the whole sdk
+# every time you start a new docker
+volumes:
+  pub-cache:
+  android-sdk-linux:

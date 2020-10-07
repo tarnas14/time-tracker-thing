@@ -1,14 +1,24 @@
 # working with containerized flutter
 
-this will run an interactive shell in `/build` directory where you can interact with flutter etc
+This project sets out to allow developing a mobile project without having to install any dependencies on the developer's machine.
+Dependencies and environment is dockerized and allows running the application on a connected phone from the container.
+
+## run
 ```
 docker-compose run --rm client-mobile
 ```
+this will run an interactive shell in `/build` directory where you can interact with flutter etc
+
+first-time setup on the container
+
 to install packages and then run the application
 ```
 flutter pub get
 flutter run
 ```
+
+## troubleshooting
+
 check if everything is working correctly:
 ```
 flutter doctor
@@ -24,10 +34,13 @@ Doctor summary (to see all details, run flutter doctor -v):
 [!] Android Studio (not installed)
 [✓] Connected device (1 available)
 ```
+
 if the device is not connected, try restarting adb
 ```
 adb start-server
 ```
+
+---
 
 # build
 

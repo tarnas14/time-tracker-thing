@@ -40,6 +40,23 @@ if the device is not connected, try restarting adb
 adb start-server
 ```
 
+## Windows loosers
+
+The only way is to install `platform-tools` and use network connection for development purposes. To achieve that, connect your Android device and then
+
+```
+adb devices
+adb tcpip 5555
+```
+
+There should be your device listed. Check its IP in System tab in settings then:
+
+```
+adb connect 192.and.roi.dip:5555
+```
+
+it's connected, so should work. Run the same connect command in flutter docker image.
+
 ---
 
 # build

@@ -49,7 +49,7 @@ adb devices
 adb tcpip 5555
 ```
 
-There should be your device listed. Check it's IP in System tab in settings then:
+There should be your device listed. Check its IP in System tab in settings then:
 
 ```
 adb connect 192.and.roi.dip:5555

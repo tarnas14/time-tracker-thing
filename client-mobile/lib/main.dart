@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_nfc_reader/flutter_nfc_reader.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Tracking Thing Device',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Tracking Thing Device'),
     );
   }
 }
@@ -50,16 +51,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  String _content = "None";
+  bool _nfcListeningEnabled = false;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+  void _readTag() {
+    FlutterNfcReader.onTagDiscovered().listen((onData) {
+      setState(() {
+          _content = onData.id;
+          });
+    });
+
+    setState((){
+      _nfcListeningEnabled = true;
     });
   }
 
@@ -71,6 +74,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    String mainMessage = 'Tap NFC icon to start scanning.';
+    if (_nfcListeningEnabled)
+      mainMessage = 'Last scanned tag id:';
+    
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -98,22 +105,20 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              mainMessage,
             ),
             Text(
-              '$_counter',
+              '$_content',
               style: Theme.of(context).textTheme.headline4,
-            ),
-            Text(
-              "Tarnas running flutter on a phone\nDidnt even install flutter\nit's inside docker",
-            ),
+
+            )
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _readTag,
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        child: Icon(Icons.nfc),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
